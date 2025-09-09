@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        @keyframes move-background {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 100px 100px;
+            }
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            /* Latar belakang grid retro animasi */
+            background-image: 
+                linear-gradient(rgba(255,0,255,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,0,255,0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: move-background 4s linear infinite;
+        }
+
+        .gameboy-container {
+            background-color: #d1d5db; /* Abu-abu muda */
+            border-radius: 20px 20px 60px 20px;
+            padding: 25px;
+            box-shadow: inset -5px -5px 0px 0px #9ca3af, 15px 15px 10px rgba(0,0,0,0.5);
+            width: 90vw;
+            max-width: 450px;
+            border: 2px solid #4b5563;
+        }
+
+        .screen-area {
+            background-color: #1f2937; /* Abu-abu gelap */
+            border-radius: 10px;
+            padding: 15px;
+            border: 3px solid #4b5563;
+        }
+
+        .screen {
+            background-color: #1a2a22; /* Hijau gelap retro */
+            color: #a2e8a9; /* Teks hijau muda */
+            height: 300px;
+            border-radius: 5px;
+            border: 2px inset #000;
+            padding: 15px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            /* Styling scrollbar retro */
+            scrollbar-width: thin;
+            scrollbar-color: #a2e8a9 #1a2a22;
+        }
+
+        .screen::-webkit-scrollbar {
+            width: 8px;
+        }
+        .screen::-webkit-scrollbar-track {
+            background: #1a2a22;
+        }
+        .screen::-webkit-scrollbar-thumb {
+            background-color: #a2e8a9;
+            border-radius: 4px;
+        }
+        
+        #openingScreen .title {
+            animation: blink-caret 1s step-end infinite;
+        }
+        #openingScreen .instruction-text {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { opacity: 1 }
+            50% { opacity: 0 }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .controls-area {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .d-pad {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+        .d-pad button {
+            position: absolute;
+            background: #374151;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #1f2937;
+            box-shadow: inset -2px -2px #1f2937;
+        }
+        .d-pad .up { top: 0; left: 30px; }
+        .d-pad .down { bottom: 0; left: 30px; }
+        .d-pad .left { top: 30px; left: 0; }
+        .d-pad .right { top: 30px; right: 0; }
+        .d-pad .center { top: 30px; left: 30px; z-index: -1; }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .action-buttons button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #1f2937;
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            color: white;
+            text-shadow: 1px 1px #000;
+        }
+        .b-button { background-color: #ef4444; box-shadow: inset -3px -3px #b91c1c; }
+        .a-button { background-color: #22c55e; box-shadow: inset -3px -3px #15803d; }
+        
+        .system-buttons {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .system-buttons button {
+            background: #6b7280;
+            border: 2px solid #374151;
+            border-radius: 25px; /* Lebih membulat */
+            padding: 5px 20px;
+            color: #d1d5db;
+            font-size: 16px;
+            transition: all 0.15s ease-out;
+            cursor: pointer;
+        }
+        #startButton {
+            background-color: #3b82f6; /* Biru cerah */
+            color: white;
+            font-size: 20px;
+            padding: 8px 30px;
+            box-shadow: 0 4px #1e40af;
+        }
+        #startButton:hover {
+            background-color: #60a5fa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px #1e40af;
+        }
+        #startButton:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px #1e40af;
+        }
+        
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hidden { display: none !important; }
+
+        .retro-button {
+             background-color: #22c55e;
+             color: white;
+             border: 2px solid #15803d;
+             padding: 5px 15px;
+             border-radius: 5px;
+             text-shadow: 1px 1px #000;
+             margin-top: 15px;
+             cursor: pointer;
+        }
+        .retro-button:hover {
+            background-color: #16a34a;
+        }
+
+        .menu-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        /* Gaya Photobox */
+        .polaroid-photo {
+            background-color: white;
+            padding: 8px 8px 15px 8px;
+            border: 1px solid #9ca3af;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+            text-align: center;
+            color: black;
+            opacity: 0;
+            animation: fadeInAnimation 0.5s forwards;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+        .polaroid-photo img {
+            width: 100%;
+            height: auto;
+        }
+        .polaroid-photo .photo-caption {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+        .polaroid-photo .photo-date {
+            background-color: #fef08a; /* Yellow tag */
+            padding: 2px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* Gaya Music Player */
+        #musicPlayerContainer {
+            background-color: rgba(0,0,0,0.4);
+            border: 2px solid #a2e8a9;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        #albumArt {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #a2e8a9;
+            object-fit: cover;
+            margin: 0 auto 10px;
+        }
+        .music-progress-bar-container {
+            width: 100%;
+            background-color: #1f2937;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 2px;
+        }
+        #musicProgressBar {
+            width: 0%;
+            height: 8px;
+            background-color: #a2e8a9;
+            border-radius: 3px;
+        }
+        .playlist-item {
+            padding: 5px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(162, 232, 169, 0.2);
+        }
+        .playlist-item:hover, .playlist-item.playing {
+            background-color: rgba(162, 232, 169, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Player -->
+    <audio id="backgroundMusic"></audio>
+
+    <div class="gameboy-container">
+        <div class="screen-area">
+            <div id="screen" class="screen">
+                <!-- Konten akan muncul di sini -->
+                <div id="openingScreen" class="h-full flex flex-col items-center justify-center text-center">
+                    <h1 class="text-4xl title">Happy Birthday!</h1>
+                    <p class="mt-4 text-xl instruction-text">Press START</p>
+                </div>
+
+                <div id="mainContent" class="hidden">
+
+                    <div id="mainMenuSection" class="min-h-full flex-col items-center justify-center hidden text-center">
+                        <h2 class="text-3xl mb-4">Menu Utama</h2>
+                        <button id="toMessageButton" class="retro-button menu-button">Pesan</button>
+                        <button id="toGalleryButton" class="retro-button menu-button bg-red-600 hover:bg-red-700 border-red-800">Galeri</button>
+                        <button id="toMusicButton" class="retro-button menu-button bg-purple-600 hover:bg-purple-700 border-purple-800">Musik</button>
+                    </div>
+
+                    <div id="messageSection" class="min-h-full flex-col items-center justify-center hidden text-center">
+                        <h2 class="text-3xl mb-4">Pesan Untukmu</h2>
+                        <p id="messageText" class="text-lg min-h-[100px]"></p>
+                        <button id="skipButton" class="retro-button">SKIP</button>
+                        <div class="flex gap-4">
+                            <button class="backToMenuButton retro-button bg-gray-600 hover:bg-gray-700 border-gray-800">Kembali</button>
+                            <button id="nextToGalleryButton" class="retro-button hidden">Lanjut ke Galeri</button>
+                        </div>
+                    </div>
+
+                    <div id="gallerySection" class="min-h-full flex-col items-center justify-start hidden text-center">
+                         <h2 class="text-3xl mb-4">Gallery</h2>
+                         <div id="photoboxContainer" class="w-full bg-gray-900/50 p-4 rounded-lg border-2 border-green-400/50">
+                            <div class="text-center mb-4 text-green-300">HEYTWL PHOTOBOX</div>
+                            <div id="photoboxOutput" class="min-h-[150px] flex flex-col items-center justify-start space-y-2 overflow-y-auto">
+                                <p>Photobox siap digunakan</p>
+                                <button id="startPrintButton" class="retro-button bg-red-600 hover:bg-red-700 border-red-800">MULAI CETAK</button>
+                            </div>
+                            <div id="progressContainer" class="w-full bg-gray-700 rounded-full h-2.5 mt-4 hidden">
+                                <div id="progressBar" class="bg-green-400 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <p id="progressText" class="text-center mt-2 text-sm"></p>
+                        </div>
+                         <div id="galleryControls" class="flex justify-center gap-4 mt-2 hidden">
+                            <button id="reprintButton" class="retro-button bg-blue-600 hover:bg-blue-700 border-blue-800">CETAK ULANG</button>
+                            <button id="toFinalMessageButton" class="retro-button">SELANJUTNYA</button>
+                         </div>
+                         <button class="backToMenuButton retro-button bg-gray-600 hover:bg-gray-700 border-gray-800">Kembali ke Menu</button>
+                    </div>
+
+                    <div id="musicSection" class="min-h-full flex-col items-center justify-center hidden text-center">
+                        <h2 class="text-3xl mb-4">Music Player</h2>
+                        <div id="musicPlayerContainer" class="w-full">
+                            <img id="albumArt" src="https://placehold.co/100x100/111/a2e8a9?text=Music" alt="Album Art">
+                            <p id="songTitle" class="text-lg">Pilih lagu dari playlist</p>
+                            <p id="songArtist" class="text-sm mb-2">-</p>
+                            <div class="music-progress-bar-container" id="musicProgressContainer">
+                                <div id="musicProgressBar"></div>
+                            </div>
+                             <div class="flex justify-between text-xs">
+                                <span id="currentTime">0:00</span>
+                                <span id="totalDuration">0:00</span>
+                            </div>
+                            <div class="flex justify-center items-center gap-4 my-2">
+                                <button id="prevButton">⏮️</button>
+                                <button id="playPauseButton" class="text-3xl">▶️</button>
+                                <button id="nextButtonMusic">⏭️</button>
+                            </div>
+                            <div id="playlistContainer" class="text-left text-sm max-h-[80px] overflow-y-auto"></div>
+                        </div>
+                        <button class="backToMenuButton retro-button bg-gray-600 hover:bg-gray-700 border-gray-800 mt-2">Kembali ke Menu</button>
+                    </div>
+
+                    <div id="finalMessageSection" class="min-h-full flex-col items-center justify-center hidden text-center">
+                         <h2 class="text-3xl mb-4">Pesan Terakhir</h2>
+                         <p class="text-lg">
+                            Terima kasih sudah menjadi bagian terindah dalam hidupku. Aku harap kita bisa terus menciptakan kenangan indah bersama. Sekali lagi, selamat ulang tahun ya. I love you! ❤️
+                        </p>
+                        <button id="homeButton" class="retro-button bg-red-600 hover:bg-red-700 border-red-800 mt-4">KEMBALI KE AWAL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-area">
+            <div class="d-pad">
+                <button class="up" onclick="scrollScreen('up')"></button>
+                <button class="down" onclick="scrollScreen('down')"></button>
+                <button class="left"></button>
+                <button class="right"></button>
+                <button class="center"></button>
+            </div>
+            <div class="action-buttons">
+                <button class="b-button">B</button>
+                <button class="a-button">A</button>
+            </div>
+             <div class="system-buttons">
+                <button>Select</button>
+                <button id="startButton">Start</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DEKLARASI ELEMEN ---
+        const startButton = document.getElementById('startButton');
+        const openingScreen = document.getElementById('openingScreen');
+        const mainContent = document.getElementById('mainContent');
+        const screenEl = document.getElementById('screen');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        
+        // Sections
+        const allSections = document.querySelectorAll('#mainContent > div');
+        const mainMenuSection = document.getElementById('mainMenuSection');
+        const messageSection = document.getElementById('messageSection');
+        const gallerySection = document.getElementById('gallerySection');
+        const musicSection = document.getElementById('musicSection');
+        const finalMessageSection = document.getElementById('finalMessageSection');
+        
+        // Tombol Navigasi Menu
+        const toMessageButton = document.getElementById('toMessageButton');
+        const toGalleryButton = document.getElementById('toGalleryButton');
+        const toMusicButton = document.getElementById('toMusicButton');
+        const backToMenuButtons = document.querySelectorAll('.backToMenuButton');
+
+        // Kontrol Pesan
+        const messageTextEl = document.getElementById('messageText');
+        const skipButton = document.getElementById('skipButton');
+        const nextToGalleryButton = document.getElementById('nextToGalleryButton');
+        
+        // Kontrol Galeri
+        const galleryControls = document.getElementById('galleryControls');
+        const reprintButton = document.getElementById('reprintButton');
+        const toFinalMessageButton = document.getElementById('toFinalMessageButton');
+        
+        // Kontrol Photobox
+        const startPrintButton = document.getElementById('startPrintButton');
+        const photoboxOutput = document.getElementById('photoboxOutput');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        // Kontrol Music Player
+        const albumArt = document.getElementById('albumArt');
+        const songTitle = document.getElementById('songTitle');
+        const songArtist = document.getElementById('songArtist');
+        const musicProgressContainer = document.getElementById('musicProgressContainer');
+        const musicProgressBar = document.getElementById('musicProgressBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalDurationEl = document.getElementById('totalDuration');
+        const prevButton = document.getElementById('prevButton');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const nextButtonMusic = document.getElementById('nextButtonMusic');
+        const playlistContainer = document.getElementById('playlistContainer');
+
+        // Tombol Akhir
+        const homeButton = document.getElementById('homeButton');
+
+        // --- STATE & DATA ---
+        let typeInterval;
+        let isTyping = false;
+        let currentTrackIndex = 0;
+        const fullMessage = "Hai Salmaa, Selamat ulang tahun! 🌸 Hari ini semoga semesta bersekongkol buat ngasih kamu kejutan-kejutan manis, hal-hal indah yang cuma bisa muncul karena ada kamu di dunia ini. Kamu itu punya cara unik bikin orang di sekitarmu merasa lebih hidup, termasuk aku. Aku selalu kagum sama caramu jadi diri sendiri: kadang kocak, kadang baper, tapi selalu berhasil bikin senyum muncul tanpa dipaksa. Terima kasih udah jadi temen ngobrol, tempat cerita, dan kadang jadi alarm pengingat kalau aku lagi nyeleneh. Doaku, semoga tahun ini kamu makin menemukan banyak alasan untuk bahagia, makin dipeluk banyak kebaikan, dan makin dicintai dengan tulus. Aku percaya hal-hal indah selalu nemuin jalan ke arahmu. Tetaplah jadi kamu yang unik, karena di situ letak keajaibannya. ✨ — Ada orang yang lahir sekadar bertambah usia, tapi kamu lahir untuk menambah warna dunia.";
+        const photoURLs = [
+            "img/1.jpg",
+            "img/2.jpg",
+            "img/3.jpg",
+            "img/4.jpg"
+        ];
+        const playlist = [
+            {
+                title: "Turning Gray Ft. Salma",
+                artist: "Salmahita",
+                art: "img/5.jpg",
+                src: "music/Yafie - Turning Gray Ft. Salma (95).mp3"
+                
+            },
+            {
+                title: "One Bended Knee",
+                artist: "Boyz II Men",
+                art: "img/one bended knee.webp",
+                src: "music/Boyz II Men On Bended Knee.mp3"
+            }
+        ];
+
+        // --- FUNGSI-FUNGSI ---
+
+        function showSection(sectionToShow) {
+            allSections.forEach(section => section.classList.add('hidden'));
+            sectionToShow.classList.remove('hidden');
+            sectionToShow.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startTyping() {
+            let i = 0;
+            isTyping = true;
+            messageTextEl.innerHTML = '';
+            skipButton.classList.remove('hidden');
+            nextToGalleryButton.classList.add('hidden');
+            
+            typeInterval = setInterval(() => {
+                if (i < fullMessage.length) messageTextEl.innerHTML += fullMessage.charAt(i++);
+                else finishTyping();
+            }, 50);
+        }
+
+        function finishTyping() {
+            clearInterval(typeInterval);
+            isTyping = false;
+            messageTextEl.innerHTML = fullMessage;
+            skipButton.classList.add('hidden');
+            nextToGalleryButton.classList.remove('hidden');
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        async function printPhotos() {
+            document.getElementById('startPrintButton')?.classList.add('hidden');
+            reprintButton.classList.add('hidden');
+            toFinalMessageButton.classList.add('hidden');
+            photoboxOutput.innerHTML = ''; 
+            progressContainer.classList.remove('hidden');
+
+            for (let i = 0; i < photoURLs.length; i++) {
+                const percentage = Math.round(((i + 1) / photoURLs.length) * 100);
+                progressText.innerText = `Mencetak foto ${i + 1} dari ${photoURLs.length}... (${percentage}%)`;
+                progressBar.style.width = `${percentage}%`;
+                await delay(1500);
+                const photoDiv = document.createElement('div');
+                photoDiv.className = 'polaroid-photo';
+                photoDiv.innerHTML = `<img src="${photoURLs[i]}" alt="Kenangan ${i+1}"><div class="photo-caption">#${i + 1}<br><span class="photo-date">09/09/25</span></div>`;
+                photoboxOutput.appendChild(photoDiv);
+                photoboxOutput.scrollTop = photoboxOutput.scrollHeight;
+            }
+
+            progressText.innerText = "Cetak Selesai!";
+            galleryControls.classList.remove('hidden');
+        }
+
+        // Fungsi Music Player
+        function loadTrack(index) {
+            const track = playlist[index];
+            albumArt.src = track.art;
+            songTitle.innerText = track.title;
+            songArtist.innerText = track.artist;
+            backgroundMusic.src = track.src;
+            updatePlaylistUI();
+        }
+
+        function playTrack() {
+            backgroundMusic.play();
+            playPauseButton.innerText = '⏸️';
+        }
+
+        function pauseTrack() {
+            backgroundMusic.pause();
+            playPauseButton.innerText = '▶️';
+        }
+        
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgress() {
+            const { duration, currentTime } = backgroundMusic;
+            const progressPercent = (currentTime / duration) * 100;
+            musicProgressBar.style.width = `${progressPercent}%`;
+            currentTimeEl.innerText = formatTime(currentTime);
+            if(duration) totalDurationEl.innerText = formatTime(duration);
+        }
+
+        function buildPlaylist() {
+            playlistContainer.innerHTML = '';
+            playlist.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'playlist-item';
+                item.innerText = `${index + 1}. ${song.title}`;
+                item.addEventListener('click', () => {
+                    currentTrackIndex = index;
+                    loadTrack(currentTrackIndex);
+                    playTrack();
+                });
+                playlistContainer.appendChild(item);
+            });
+            updatePlaylistUI();
+        }
+
+        function updatePlaylistUI() {
+             const items = playlistContainer.querySelectorAll('.playlist-item');
+             items.forEach((item, index) => {
+                 item.classList.toggle('playing', index === currentTrackIndex);
+             });
+        }
+
+
+        function resetState() {
+            messageTextEl.innerHTML = '';
+            photoboxOutput.innerHTML = `<p>Photobox siap digunakan</p><button id="startPrintButton" class="retro-button bg-red-600 hover:bg-red-700 border-red-800">MULAI CETAK</button>`;
+            document.getElementById('startPrintButton').addEventListener('click', printPhotos);
+            progressContainer.classList.add('hidden');
+            progressBar.style.width = '0%';
+            progressText.innerText = '';
+            galleryControls.classList.add('hidden');
+        }
+
+        // --- EVENT LISTENERS ---
+
+        startButton.addEventListener('click', () => {
+            if (!openingScreen.classList.contains('hidden')) {
+                openingScreen.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                resetState();
+                showSection(mainMenuSection);
+                loadTrack(currentTrackIndex);
+                playTrack();
+            }
+        });
+
+        // Navigasi
+        toMessageButton.addEventListener('click', () => { showSection(messageSection); startTyping(); });
+        toGalleryButton.addEventListener('click', () => showSection(gallerySection));
+        toMusicButton.addEventListener('click', () => showSection(musicSection));
+        backToMenuButtons.forEach(btn => btn.addEventListener('click', () => showSection(mainMenuSection)));
+
+        // Kontrol Pesan
+        skipButton.addEventListener('click', () => { if(isTyping) finishTyping(); });
+        nextToGalleryButton.addEventListener('click', () => showSection(gallerySection));
+
+        // Kontrol Galeri
+        document.getElementById('startPrintButton').addEventListener('click', printPhotos);
+        reprintButton.addEventListener('click', printPhotos);
+        toFinalMessageButton.addEventListener('click', () => showSection(finalMessageSection));
+
+        // Kontrol Music Player
+        playPauseButton.addEventListener('click', () => backgroundMusic.paused ? playTrack() : pauseTrack());
+        prevButton.addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            playTrack();
+        });
+        nextButtonMusic.addEventListener('click', () => {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            playTrack();
+        });
+        backgroundMusic.addEventListener('timeupdate', updateProgress);
+        backgroundMusic.addEventListener('ended', () => nextButtonMusic.click());
+        musicProgressContainer.addEventListener('click', (e) => {
+            const width = musicProgressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = backgroundMusic.duration;
+            backgroundMusic.currentTime = (clickX / width) * duration;
+        });
+
+        // Tombol Akhir
+        homeButton.addEventListener('click', () => {
+            mainContent.classList.add('hidden');
+            openingScreen.classList.remove('hidden');
+            pauseTrack();
+        });
+        
+        // --- INISIALISASI ---
+        buildPlaylist();
+    </script>
+</body>
+</html>
